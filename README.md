@@ -6,5 +6,5 @@ cowsay but with totoro
 
 This CLI orients on the [Command Line Interface Guidelines](https://clig.dev/).
 
-To cite the Guidelines:
+To cite the guidelines:
 > Long live the command line!
