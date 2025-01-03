@@ -1,3 +1,12 @@
+use clap::Parser;
+
+#[derive(Parser)]
+#[command(version)]
+struct Args {
+    text: String,
+}
+
 fn main() {
-    println!("Hello World!");
+    let args = Args::parse();
+    println!("Totoro says: {:?}", args.text);
 }
