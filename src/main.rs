@@ -1,4 +1,5 @@
 use clap::Parser;
+use std::fs;
 
 #[derive(Parser)]
 #[command(version)]
@@ -8,5 +9,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    println!("Totoro says: {:?}", args.text);
+    let text_bubble = format!("________________\n< {} >\n----------------\n", args.text);
+    let totoro = fs::read_to_string("resources/totoro.txt").expect("Unable to read file");
+    println!("{}{}", text_bubble, totoro);
 }
