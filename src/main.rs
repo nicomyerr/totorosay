@@ -4,14 +4,23 @@ use std::fs;
 #[derive(Parser)]
 #[command(version)]
 struct Args {
+    /// Text Totoro should say
     text: Vec<String>,
+    /// Use big Totoro
+    #[arg(short, long)]
+    big: bool,
 }
 
 fn main() {
     let args = Args::parse();
     let text = args.text.join(" ");
     let text_bubble = text_bubble(text);
-    let totoro = fs::read_to_string("resources/totoro.txt").expect("Unable to read file");
+    // TODO: refactoring
+    let mut file = String::from("resources/totoro.txt");
+    if args.big {
+        file = file.replace("totoro", "totoro-big");
+    }
+    let totoro = fs::read_to_string(file).expect("Unable to read file");
     println!("{}{}", text_bubble, totoro);
 }
 
