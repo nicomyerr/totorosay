@@ -4,12 +4,13 @@ use std::fs;
 #[derive(Parser)]
 #[command(version)]
 struct Args {
-    text: String,
+    text: Vec<String>,
 }
 
 fn main() {
     let args = Args::parse();
-    let text_bubble = text_bubble(args.text);
+    let text = args.text.join(" ");
+    let text_bubble = text_bubble(text);
     let totoro = fs::read_to_string("resources/totoro.txt").expect("Unable to read file");
     println!("{}{}", text_bubble, totoro);
 }
