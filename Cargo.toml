@@ -1,6 +1,9 @@
 [package]
 name = "totorosay"
 version = "0.1.0"
+description = "cowsay but with totoro"
+repository = "https://github.com/nicomyerr/totorosay"
+readme = "README.md"
 edition = "2021"
 
 [dependencies]
