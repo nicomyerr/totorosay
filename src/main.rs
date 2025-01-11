@@ -16,6 +16,7 @@ fn main() {
     let text = args.text.join(" ");
     let text_bubble = text_bubble(text);
     // TODO: refactoring
+    // TODO: handle longer input with linebreaks
     let mut file = String::from("resources/totoro.txt");
     if args.big {
         file = file.replace("totoro", "totoro-big");
