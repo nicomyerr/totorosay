@@ -37,7 +37,7 @@ fn text_bubble(text: &str) -> String {
     return format!("{}\n< {} > \n{}\n", top, text, bot);
 }
 
-fn size_to_file(big: bool) -> String {
+pub fn size_to_file(big: bool) -> String {
     return match big {
         true => "totoro-big.txt".to_string(),
         false => "totoro.txt".to_string(),
