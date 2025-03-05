@@ -3,6 +3,7 @@ mod tests {
     use rstest::rstest;
     use totorosay::size_to_file;
 
+    // TODO: rewrite tests
     #[rstest]
     #[case(true, "totoro-big.txt")]
     #[case(false, "totoro.txt")]

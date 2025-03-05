@@ -17,9 +17,7 @@ fn main() {
     let text = args.text.join(" ");
     let text_bubble = text_bubble(&text);
 
-    let path = "resources/".to_string();
-    let file = size_to_file(args.big);
-    let totoro = fs::read_to_string(path + &file).expect("Unable to read file");
+    let totoro = get_totoro_ascii(args.big);
 
     println!("{}{}", text_bubble, totoro);
 }
@@ -37,6 +35,13 @@ fn text_bubble(text: &str) -> String {
     return format!("{}\n< {} > \n{}\n", top, text, bot);
 }
 
+pub fn get_totoro_ascii(big: bool) -> String {
+    let path = "resources/".to_string();
+    let file = size_to_file(big);
+    return fs::read_to_string(path + &file).expect("Unable to read file");
+}
+
+// TODO: private function
 pub fn size_to_file(big: bool) -> String {
     return match big {
         true => "totoro-big.txt".to_string(),
