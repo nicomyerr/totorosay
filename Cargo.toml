@@ -8,6 +8,10 @@ edition = "2021"
 
 [lib]
 name = "totorosay"
+path = "src/lib.rs"
+
+[[bin]]
+name = "totorosay"
 path = "src/main.rs"
 
 [dependencies]
