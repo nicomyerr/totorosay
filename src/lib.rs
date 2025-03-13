@@ -1,5 +1,12 @@
 use std::fs;
 
+pub fn totorosay(text: String, big: bool) -> String {
+    let text_bubble = text_bubble(&text);
+    let totoro = get_totoro_ascii(big);
+    // TODO: why does it add a trailing newline at the end
+    return format!("{}{}", text_bubble, totoro);
+}
+
 pub fn text_bubble(text: &str) -> String {
     // TODO: handle longer input with linebreaks
     let mut top = String::from(" __");
@@ -10,7 +17,7 @@ pub fn text_bubble(text: &str) -> String {
         bot.push('-');
         i += 1;
     }
-    return format!("{}\n< {} > \n{}\n", top, text, bot);
+    return format!("{}\n< {} >\n{}\n", top, text, bot);
 }
 
 pub fn get_totoro_ascii(big: bool) -> String {

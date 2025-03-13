@@ -14,11 +14,6 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-
     let text = args.text.join(" ");
-    let text_bubble = totorosay::text_bubble(&text);
-
-    let totoro = totorosay::get_totoro_ascii(args.big);
-
-    println!("{}{}", text_bubble, totoro);
+    print!("{}", totorosay::totorosay(text, args.big));
 }
