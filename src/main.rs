@@ -2,7 +2,8 @@ use clap::Parser;
 
 #[derive(Parser)]
 #[command(version)]
-#[command(about = "cowsay but with totoroy", long_about = None)]
+#[command(about = "cowsay but with totoroy")]
+#[command(arg_required_else_help = true)]
 struct Args {
     /// Text Totoro should say
     text: Vec<String>,
