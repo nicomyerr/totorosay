@@ -26,7 +26,6 @@ fn get_totoro_ascii(big: bool) -> String {
     return fs::read_to_string(path + &file).expect("Unable to read file");
 }
 
-// TODO: private function
 fn size_to_file(big: bool) -> String {
     return match big {
         true => "totoro-big.txt".to_string(),
