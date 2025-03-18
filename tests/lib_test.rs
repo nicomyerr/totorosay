@@ -6,6 +6,11 @@ mod tests {
     #[rstest]
     #[case("totoro-single-word.txt", "totorosay", false)]
     #[case("totoro-big-single-word.txt", "totorosay", true)]
+    #[case(
+        "totoro-max-single-line-single-word.txt",
+        "012345678901234567890123456789012345678",
+        false
+    )]
     fn test_totorosay(#[case] filename: &str, #[case] text: &str, #[case] big: bool) {
         // given
         let expected: String = read_file(filename);
