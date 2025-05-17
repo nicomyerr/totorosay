@@ -11,6 +11,16 @@ mod tests {
         "012345678901234567890123456789012345678",
         false
     )]
+    #[case(
+        "totoro-linebreak.txt",
+        "Some sentence with a linebreak for testing it.",
+        false
+    )]
+    #[case(
+        "totoro-multiple-linebreaks.txt",
+        "Do you know the difference between an error and a mistake? Anyone can make an error, but that error doesn't become a mistake until you refuse to correct it.",
+        false
+    )]
     fn test_totorosay(#[case] filename: &str, #[case] text: &str, #[case] big: bool) {
         // given
         let expected: String = read_file(filename);
