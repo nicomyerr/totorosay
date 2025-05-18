@@ -12,21 +12,18 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
     let max_len = max_len(&lines);
     let mut result = String::new();
 
-    // Top border
     result.push_str(" ");
     result.push_str(&"_".repeat(max_len as usize + 2));
     result.push('\n');
 
     match lines.len() {
-        0 => {} // Do nothing
+        0 => {}
         1 => {
-            // Single line: < ... >
             let line = &lines[0];
             let padding = max_len - line.len() as i32;
             result.push_str(&format!("< {}{} >\n", line, " ".repeat(padding as usize)));
         }
         2 => {
-            // Two lines: / ... \, \ ... /
             let line1 = &lines[0];
             let line2 = &lines[1];
             result.push_str(&format!(
@@ -41,7 +38,6 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
             ));
         }
         _ => {
-            // More than two lines: / ... \, | ... |, \ ... /
             result.push_str(&format!(
                 "/ {}{} \\\n",
                 lines[0],
@@ -63,12 +59,11 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
         }
     }
 
-    // Bottom border
     result.push_str(" ");
     result.push_str(&"-".repeat(max_len as usize + 2));
     result.push('\n');
 
-    result
+    return result;
 }
 
 fn max_len(lines: &Vec<String>) -> i32 {
@@ -84,17 +79,17 @@ fn max_len(lines: &Vec<String>) -> i32 {
 fn format_text(text: &str) -> Vec<String> {
     // TODO: refactor
     const MAX_WIDTH: usize = 42;
+
     if text.len() <= MAX_WIDTH {
         return vec![text.to_string()];
     }
+
     let mut lines: Vec<String> = Vec::new();
     let mut remaining = text;
 
     while remaining.len() > MAX_WIDTH {
         let index = index_to_space_within(remaining, MAX_WIDTH);
-
         if index == -1 {
-            // No space found: force break at MAX_WIDTH
             let (line, rest) = remaining.split_at(MAX_WIDTH);
             lines.push(line.to_string());
             remaining = rest;
@@ -102,7 +97,6 @@ fn format_text(text: &str) -> Vec<String> {
             let split_index = index as usize;
             let (line, rest) = remaining.split_at(split_index);
             lines.push(line.to_string());
-            // Skip the space itself
             remaining = &rest[1..];
         }
     }
@@ -123,7 +117,6 @@ fn index_to_space_within(text: &str, max_width: usize) -> i32 {
         }
     }
 
-    // If no space is found, return -1
     return -1;
 }
 
