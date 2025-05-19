@@ -67,6 +67,7 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
 }
 
 fn max_len(lines: &Vec<String>) -> i32 {
+    // TODO: refactor
     let mut max_len: i32 = 0;
     for line in lines.iter() {
         if line.len() as i32 > max_len {
@@ -88,16 +89,17 @@ fn format_text(text: &str) -> Vec<String> {
     let mut remaining = text;
 
     while remaining.len() > MAX_WIDTH {
-        let index = index_to_space_within(remaining, MAX_WIDTH);
-        if index == -1 {
-            let (line, rest) = remaining.split_at(MAX_WIDTH);
-            lines.push(line.to_string());
-            remaining = rest;
-        } else {
-            let split_index = index as usize;
-            let (line, rest) = remaining.split_at(split_index);
-            lines.push(line.to_string());
-            remaining = &rest[1..];
+        match find_last_space_within(remaining, MAX_WIDTH) {
+            Some(index) => {
+                let (line, rest) = remaining.split_at(index);
+                lines.push(line.to_string());
+                remaining = &rest[1..];
+            }
+            None => {
+                let (line, rest) = remaining.split_at(MAX_WIDTH);
+                lines.push(line.to_string());
+                remaining = rest;
+            }
         }
     }
 
@@ -108,16 +110,8 @@ fn format_text(text: &str) -> Vec<String> {
     return lines;
 }
 
-fn index_to_space_within(text: &str, max_width: usize) -> i32 {
-    let search_limit = max_width.min(text.len());
-
-    for (i, ch) in text[..search_limit].char_indices().rev() {
-        if ch == ' ' {
-            return i as i32;
-        }
-    }
-
-    return -1;
+fn find_last_space_within(text: &str, max_width: usize) -> Option<usize> {
+    return text[..max_width.min(text.len())].rfind(' ');
 }
 
 fn get_totoro_ascii(big: bool) -> String {
@@ -127,6 +121,8 @@ fn get_totoro_ascii(big: bool) -> String {
 }
 
 fn size_to_file(big: bool) -> String {
+    // TODO: Filenames -> const
+    // TODO: bool -> enum (mapping function)
     return match big {
         true => "totoro-big.txt".to_string(),
         false => "totoro.txt".to_string(),
