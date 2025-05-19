@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "cowsay but with totoro"
 repository = "https://github.com/nicomyerr/totorosay"
 readme = "README.md"
+license = "MIT"
 edition = "2021"
 
 [lib]
