@@ -20,7 +20,7 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
         0 => {}
         1 => {
             let line = &lines[0];
-            let padding = max_len - line.len() as i32;
+            let padding = max_len - line.len();
             result.push_str(&format!("< {}{} >\n", line, " ".repeat(padding as usize)));
         }
         2 => {
@@ -29,52 +29,45 @@ fn wrap_text_bubble(lines: Vec<String>) -> String {
             result.push_str(&format!(
                 "/ {}{} \\\n",
                 line1,
-                " ".repeat(max_len as usize - line1.len())
+                " ".repeat(max_len - line1.len())
             ));
             result.push_str(&format!(
                 "\\ {}{} /\n",
                 line2,
-                " ".repeat(max_len as usize - line2.len())
+                " ".repeat(max_len - line2.len())
             ));
         }
         _ => {
             result.push_str(&format!(
                 "/ {}{} \\\n",
                 lines[0],
-                " ".repeat(max_len as usize - lines[0].len())
+                " ".repeat(max_len - lines[0].len())
             ));
             for line in &lines[1..lines.len() - 1] {
                 result.push_str(&format!(
                     "| {}{} |\n",
                     line,
-                    " ".repeat(max_len as usize - line.len())
+                    " ".repeat(max_len - line.len())
                 ));
             }
             let last = &lines[lines.len() - 1];
             result.push_str(&format!(
                 "\\ {}{} /\n",
                 last,
-                " ".repeat(max_len as usize - last.len())
+                " ".repeat(max_len - last.len())
             ));
         }
     }
 
     result.push_str(" ");
-    result.push_str(&"-".repeat(max_len as usize + 2));
+    result.push_str(&"-".repeat(max_len + 2));
     result.push('\n');
 
     return result;
 }
 
-fn max_len(lines: &Vec<String>) -> i32 {
-    // TODO: refactor
-    let mut max_len: i32 = 0;
-    for line in lines.iter() {
-        if line.len() as i32 > max_len {
-            max_len = line.len() as i32
-        }
-    }
-    return max_len;
+fn max_len(lines: &Vec<String>) -> usize {
+    return lines.iter().map(|line| line.len()).max().unwrap_or(0);
 }
 
 fn format_text(text: &str) -> Vec<String> {
