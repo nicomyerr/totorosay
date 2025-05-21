@@ -1,6 +1,6 @@
 # totorosay
 
-![build](https://img.shields.io/github/actions/workflow/status/nicomyerr/totorosay/rust-ci.yaml)
+![Build](https://github.com/nicomyerr/totorosay/workflows/Rust%20CI%20workflow/badge.svg)
 [![License](https://img.shields.io/badge/License-MIT-a31f34)](LICENSE)
 
 cowsay but with totoro
