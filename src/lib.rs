@@ -1,76 +1,71 @@
 use std::fs;
 
 pub fn totorosay(text: String, big: bool) -> String {
-    let text_bubble: String = wrap_text_bubble(format_text(&text));
-    let totoro: String = get_totoro_ascii(big);
-    // TODO: why does it add a trailing newline at the end
+    let text_bubble = wrap_lines_into_speech_bubble(split_text_into_lines(&text));
+    let totoro = get_totoro_ascii(big);
     return format!("{}{}", text_bubble, totoro);
 }
 
-fn wrap_text_bubble(lines: Vec<String>) -> String {
-    // TODO: refactor
+fn wrap_lines_into_speech_bubble(lines: Vec<String>) -> String {
     let max_len = max_len(&lines);
-    let mut result = String::new();
+    let top_border = draw_horizontal_border(max_len, '_');
+    let content = wrap_content(lines, max_len);
+    let bottom_border = draw_horizontal_border(max_len, '-');
+    return format!("{}{}{}", top_border, content, bottom_border);
+}
 
-    result.push_str(" ");
-    result.push_str(&"_".repeat(max_len as usize + 2));
-    result.push('\n');
+fn draw_horizontal_border(iterations: usize, border_char: char) -> String {
+    return format!(" {}\n", border_char.to_string().repeat(iterations + 2));
+}
 
-    match lines.len() {
-        0 => {}
-        1 => {
-            let line = &lines[0];
-            let padding = max_len - line.len();
-            result.push_str(&format!("< {}{} >\n", line, " ".repeat(padding as usize)));
-        }
-        2 => {
-            let line1 = &lines[0];
-            let line2 = &lines[1];
-            result.push_str(&format!(
-                "/ {}{} \\\n",
-                line1,
-                " ".repeat(max_len - line1.len())
-            ));
-            result.push_str(&format!(
-                "\\ {}{} /\n",
-                line2,
-                " ".repeat(max_len - line2.len())
-            ));
-        }
-        _ => {
-            result.push_str(&format!(
-                "/ {}{} \\\n",
-                lines[0],
-                " ".repeat(max_len - lines[0].len())
-            ));
-            for line in &lines[1..lines.len() - 1] {
-                result.push_str(&format!(
-                    "| {}{} |\n",
-                    line,
-                    " ".repeat(max_len - line.len())
-                ));
-            }
-            let last = &lines[lines.len() - 1];
-            result.push_str(&format!(
-                "\\ {}{} /\n",
-                last,
-                " ".repeat(max_len - last.len())
-            ));
-        }
+fn wrap_content(lines: Vec<String>, max_len: usize) -> String {
+    return match lines.len() {
+        0 => String::new(),
+        1 => draw_single_line(&lines[0], max_len),
+        2 => draw_two_lines(&lines[0], &lines[1], max_len),
+        _ => draw_multiple_lines(&lines, max_len),
+    };
+}
+
+fn draw_single_line(line: &str, max_len: usize) -> String {
+    return format_padded_line(line, max_len, "<", ">");
+}
+
+fn draw_two_lines(first_line: &str, second_line: &str, max_len: usize) -> String {
+    let first_line = format_padded_line(first_line, max_len, "/", "\\");
+    let second_line = format_padded_line(second_line, max_len, "\\", "/");
+    return format!("{}{}", first_line, second_line);
+}
+
+fn draw_multiple_lines(lines: &[String], max_len: usize) -> String {
+    let mut result = String::with_capacity(lines.len() * (max_len + 4));
+
+    result.push_str(&format_padded_line(&lines[0], max_len, "/", "\\"));
+
+    for line in &lines[1..lines.len() - 1] {
+        result.push_str(&format_padded_line(line, max_len, "|", "|"));
     }
 
-    result.push_str(" ");
-    result.push_str(&"-".repeat(max_len + 2));
-    result.push('\n');
+    result.push_str(&format_padded_line(
+        &lines[lines.len() - 1],
+        max_len,
+        "\\",
+        "/",
+    ));
 
     return result;
+}
+
+fn format_padded_line(line: &str, max_len: usize, left_border: &str, right_border: &str) -> String {
+    let padding = " ".repeat(max_len - line.len());
+    return format!("{} {}{} {}\n", left_border, line, padding, right_border);
 }
 
 fn max_len(lines: &Vec<String>) -> usize {
     return lines.iter().map(|line| line.len()).max().unwrap_or(0);
 }
 
-fn format_text(text: &str) -> Vec<String> {
+fn split_text_into_lines(text: &str) -> Vec<String> {
     // TODO: refactor
     const MAX_WIDTH: usize = 42;
 
