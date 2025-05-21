@@ -13,7 +13,7 @@ struct Args {
 }
 
 fn main() {
-    let args: Args = Args::parse();
-    let text: String = args.text.join(" ");
+    let args = Args::parse();
+    let text = args.text.join(" ");
     print!("{}", totorosay::totorosay(text, args.big));
 }

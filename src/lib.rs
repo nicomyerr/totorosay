@@ -67,24 +67,24 @@ fn max_len(lines: &Vec<String>) -> usize {
 
 fn split_text_into_lines(text: &str) -> Vec<String> {
     // TODO: refactor
-    const MAX_WIDTH: usize = 42;
+    let max_width = 42;
 
-    if text.len() <= MAX_WIDTH {
+    if text.len() <= max_width {
         return vec![text.to_string()];
     }
 
-    let mut lines: Vec<String> = Vec::new();
+    let mut lines = Vec::new();
     let mut remaining = text;
 
-    while remaining.len() > MAX_WIDTH {
-        match find_last_space_within(remaining, MAX_WIDTH) {
+    while remaining.len() > max_width {
+        match find_last_space_within(remaining, max_width) {
             Some(index) => {
                 let (line, rest) = remaining.split_at(index);
                 lines.push(line.to_string());
                 remaining = &rest[1..];
             }
             None => {
-                let (line, rest) = remaining.split_at(MAX_WIDTH);
+                let (line, rest) = remaining.split_at(max_width);
                 lines.push(line.to_string());
                 remaining = rest;
             }
@@ -103,8 +103,8 @@ fn find_last_space_within(text: &str, max_width: usize) -> Option<usize> {
 }
 
 fn get_totoro_ascii(big: bool) -> String {
-    let path: String = "resources/".to_string();
-    let file: String = size_to_file(big);
+    let path = "resources/".to_string();
+    let file = size_to_file(big);
     return fs::read_to_string(path + &file).expect("Unable to read file");
 }
 
