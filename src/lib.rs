@@ -1,4 +1,7 @@
-use std::fs;
+const MAX_WIDTH: usize = 42;
+
+const TOTORO: &[u8] = include_bytes!("../resources/totoro.txt");
+const TOTORO_BIG: &[u8] = include_bytes!("../resources/totoro-big.txt");
 
 pub fn totorosay(text: String, big: bool) -> String {
     let text_bubble = wrap_lines_into_speech_bubble(split_text_into_lines(&text));
@@ -67,24 +70,22 @@ fn max_len(lines: &Vec<String>) -> usize {
 
 fn split_text_into_lines(text: &str) -> Vec<String> {
     // TODO: refactor
-    let max_width = 42;
-
-    if text.len() <= max_width {
+    if text.len() <= MAX_WIDTH {
         return vec![text.to_string()];
     }
 
     let mut lines = Vec::new();
     let mut remaining = text;
 
-    while remaining.len() > max_width {
-        match find_last_space_within(remaining, max_width) {
+    while remaining.len() > MAX_WIDTH {
+        match find_last_space_within(remaining, MAX_WIDTH) {
             Some(index) => {
                 let (line, rest) = remaining.split_at(index);
                 lines.push(line.to_string());
                 remaining = &rest[1..];
             }
             None => {
-                let (line, rest) = remaining.split_at(max_width);
+                let (line, rest) = remaining.split_at(MAX_WIDTH);
                 lines.push(line.to_string());
                 remaining = rest;
             }
@@ -103,16 +104,12 @@ fn find_last_space_within(text: &str, max_width: usize) -> Option<usize> {
 }
 
 fn get_totoro_ascii(big: bool) -> String {
-    let path = "resources/".to_string();
-    let file = size_to_file(big);
-    return fs::read_to_string(path + &file).expect("Unable to read file");
-}
-
-fn size_to_file(big: bool) -> String {
-    // TODO: Filenames -> const
-    // TODO: bool -> enum (mapping function)
-    return match big {
-        true => "totoro-big.txt".to_string(),
-        false => "totoro.txt".to_string(),
+    let bytes = match big {
+        true => TOTORO_BIG,
+        false => TOTORO,
     };
+
+    return std::str::from_utf8(bytes)
+        .expect("Unable to read file")
+        .to_string();
 }
