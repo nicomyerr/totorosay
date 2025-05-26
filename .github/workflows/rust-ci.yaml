@@ -31,6 +31,10 @@ jobs:
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
           ${{ runner.os }}-cargo-
+    - name: Check formatting
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt --all -- --check
     - name: Run tests
       uses: actions-rs/cargo@v1
       with:
