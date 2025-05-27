@@ -1,4 +1,5 @@
 [package]
+rust-version = "1.85.0"
 name = "totorosay"
 version = "0.1.0"
 description = "cowsay but with totoro"

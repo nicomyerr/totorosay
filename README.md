@@ -7,12 +7,6 @@ cowsay but with totoro
 
 ![totorosay example](./docs/totorosay-example.png)
 
-Insipired by cowsay, but instead of a cow, Totoro says something.
-
-## Installation
-
-TODO
-
 ## Usage
 
 Open your favourite Terminal and type:
@@ -26,3 +20,17 @@ And Totoro says `Hello world!`.
 Use the `-b` or `--big` flag to use **big** Totoro:
 
 ![totorosay example](./docs/totorosay-big-hello-world.png)
+
+## Installation
+
+TODO: crates.io and GitHub release
+
+### From Source
+
+Building from source requires Rust 1.85.0 or higher (see `rust-version` in [Cargo.toml](Cargo.toml)).
+
+Then you can build it with `cargo`:
+
+```shell
+cargo install --locked --path .
+```
