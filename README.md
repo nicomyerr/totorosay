@@ -9,7 +9,7 @@ cowsay but with totoro
 
 ## Usage
 
-Open your favourite Terminal and type:
+Open your favourite terminal and type:
 
 ```bash
 totorosay Hello world!
