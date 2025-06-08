@@ -6,7 +6,7 @@ const TOTORO_BIG: &[u8] = include_bytes!("../resources/totoro-big.txt");
 pub fn totorosay(text: String, big: bool) -> String {
     let text_bubble = wrap_lines_into_speech_bubble(split_text_into_lines(&text));
     let totoro = get_totoro_ascii(big);
-    return format!("{}{}", text_bubble, totoro);
+    format!("{}{}", text_bubble, totoro)
 }
 
 fn wrap_lines_into_speech_bubble(lines: Vec<String>) -> String {
@@ -14,30 +14,30 @@ fn wrap_lines_into_speech_bubble(lines: Vec<String>) -> String {
     let top_border = draw_horizontal_border(max_len, '_');
     let content = wrap_content(lines, max_len);
     let bottom_border = draw_horizontal_border(max_len, '-');
-    return format!("{}{}{}", top_border, content, bottom_border);
+    format!("{}{}{}", top_border, content, bottom_border)
 }
 
 fn draw_horizontal_border(iterations: usize, border_char: char) -> String {
-    return format!(" {}\n", border_char.to_string().repeat(iterations + 2));
+    format!(" {}\n", border_char.to_string().repeat(iterations + 2))
 }
 
 fn wrap_content(lines: Vec<String>, max_len: usize) -> String {
-    return match lines.len() {
+    match lines.len() {
         0 => String::new(),
         1 => draw_single_line(&lines[0], max_len),
         2 => draw_two_lines(&lines[0], &lines[1], max_len),
         _ => draw_multiple_lines(&lines, max_len),
-    };
+    }
 }
 
 fn draw_single_line(line: &str, max_len: usize) -> String {
-    return format_padded_line(line, max_len, "<", ">");
+    format_padded_line(line, max_len, "<", ">")
 }
 
 fn draw_two_lines(first_line: &str, second_line: &str, max_len: usize) -> String {
     let first_line = format_padded_line(first_line, max_len, "/", "\\");
     let second_line = format_padded_line(second_line, max_len, "\\", "/");
-    return format!("{}{}", first_line, second_line);
+    format!("{}{}", first_line, second_line)
 }
 
 fn draw_multiple_lines(lines: &[String], max_len: usize) -> String {
@@ -56,16 +56,16 @@ fn draw_multiple_lines(lines: &[String], max_len: usize) -> String {
         "/",
     ));
 
-    return result;
+    result
 }
 
 fn format_padded_line(line: &str, max_len: usize, left_border: &str, right_border: &str) -> String {
     let padding = " ".repeat(max_len - line.len());
-    return format!("{} {}{} {}\n", left_border, line, padding, right_border);
+    format!("{} {}{} {}\n", left_border, line, padding, right_border)
 }
 
-fn max_len(lines: &Vec<String>) -> usize {
-    return lines.iter().map(|line| line.len()).max().unwrap_or(0);
+fn max_len(lines: &[String]) -> usize {
+    lines.iter().map(|line| line.len()).max().unwrap_or(0)
 }
 
 fn split_text_into_lines(text: &str) -> Vec<String> {
@@ -96,11 +96,11 @@ fn split_text_into_lines(text: &str) -> Vec<String> {
         lines.push(remaining.to_string());
     }
 
-    return lines;
+    lines
 }
 
 fn find_last_space_within(text: &str, max_width: usize) -> Option<usize> {
-    return text[..max_width.min(text.len())].rfind(' ');
+    text[..max_width.min(text.len())].rfind(' ')
 }
 
 fn get_totoro_ascii(big: bool) -> String {
@@ -109,7 +109,7 @@ fn get_totoro_ascii(big: bool) -> String {
         false => TOTORO,
     };
 
-    return std::str::from_utf8(bytes)
+    std::str::from_utf8(bytes)
         .expect("Unable to read file")
-        .to_string();
+        .to_string()
 }

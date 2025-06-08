@@ -32,6 +32,6 @@ mod tests {
 
     fn read_file(filename: &str) -> String {
         let path = "tests/resources/".to_string();
-        return fs::read_to_string(path + &filename).expect("Unable to read file");
+        fs::read_to_string(path + filename).expect("Unable to read file")
     }
 }
